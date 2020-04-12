@@ -21,7 +21,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
 import Element.Input as Input
-import Widget.Style as Style exposing (..)
+import Widget.Color as Style exposing (..)
 
 
 {-| -}

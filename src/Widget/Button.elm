@@ -1,6 +1,6 @@
 module Widget.Button exposing
-    ( Alignment(..), Role(..), Size(..), Variant(..)
-    , button, toElement
+    ( Alignment(..), Role(..), Size(..), ButtonStyle(..)
+    , make, toElement
     , withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withWidth
     )
 
@@ -9,12 +9,12 @@ module Widget.Button exposing
 
 ## Types
 
-@docs Alignment, Role, Size, Variant
+@docs Alignment, Role, Size, ButtonStyle
 
 
 ## Construct and render
 
-@docs button, toElement
+@docs make, toElement
 
 
 ## Options
@@ -28,7 +28,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
-import Widget.Style as Style exposing (..)
+import Widget.Color as Style exposing (..)
 
 
 type Button msg
@@ -36,14 +36,14 @@ type Button msg
 
 
 {-| -}
-button : msg -> String -> Button msg
-button msg label =
+make : msg -> String -> Button msg
+make msg label =
     Button defaultOptions msg label
 
 
 type alias Options =
     { role : Role
-    , variant : Variant
+    , variant : ButtonStyle
     , selected : Bool
     , backgroundColor : Color
     , fontColor : Color
@@ -63,7 +63,7 @@ type Role
 
 
 {-| -}
-type Variant
+type ButtonStyle
     = Square
     | Rounded
 
@@ -112,7 +112,7 @@ withRole role (Button options msg label) =
 
 
 {-| -}
-withStyle : Variant -> Button msg -> Button msg
+withStyle : ButtonStyle -> Button msg -> Button msg
 withStyle variant (Button options msg label) =
     Button { options | variant = variant } msg label
 
@@ -213,7 +213,7 @@ type alias ButtonStyleFunction msg =
     Options -> List (Attribute msg)
 
 
-variantStyle : Variant -> Color -> List (Attribute msg)
+variantStyle : ButtonStyle -> Color -> List (Attribute msg)
 variantStyle variant color =
     case variant of
         Square ->

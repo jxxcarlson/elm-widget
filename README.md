@@ -1,8 +1,10 @@
 # Widget
 
 This package is a collection of configurable UI widgets: buttons, 
-text fields, bars, etc.  Based on [Brian Hick's Robot Buttons from Mars].
-Below are some examples.
+text fields, bars, etc.  Based on 
+[Brian Hick's Robot Buttons from Mars](https://www.youtube.com/watch?v=PDyWP-0H4Zo).
+Below are examples of how to use each element.  See 
+also the `examples` folder.
 
 ## Button
 

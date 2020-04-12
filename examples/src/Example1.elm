@@ -1,4 +1,4 @@
-module Main exposing (main)
+module Example1 exposing (main)
 
 {- This is a starter app which presents a text label, text field, and a button.
    What you enter in the text field is echoed in the label.  When you press the
@@ -10,10 +10,10 @@ import Browser
 import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
-import Element.Input as Input
 import Html exposing (Html)
-import Widget.Button as Button exposing (Size(..), button)
+import Widget.Button as Button exposing (ButtonStyle(..), Role(..), Size(..))
 import Widget.Style
+import Widget.TextField as TextField exposing (LabelPosition(..))
 
 
 main =
@@ -43,8 +43,8 @@ type alias Flags =
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( { input = "App started"
-      , output = "App started"
+    ( { input = "a stitch in time saves nine"
+      , output = "a stitch in time saves nine"
       }
     , Cmd.none
     )
@@ -75,25 +75,22 @@ update msg model =
 
 view : Model -> Html Msg
 view model =
-    let
-        g =
-            0.8
-    in
-    Widget.Style.layout model mainColumn 0.8
+    Element.layoutWith { options = [ focusStyle Widget.Style.noFocus ] }
+        [ Background.color <| Element.rgb 0.2 0.2 0.2 ]
+        (mainColumn model)
 
 
-
--- Element.layoutWith { options = [ focusStyle Style.myFocusStyle ] } [ Background.color <| Element.rgb g g g ] (mainColumn model)
--- Element.layout [] (mainColumn model)
+widgetWidth =
+    200
 
 
 mainColumn : Model -> Element Msg
 mainColumn model =
     column mainColumnStyle
-        [ column [ centerX, spacing 20 ]
-            [ title "Starter app"
-            , inputText model
-            , appButton
+        [ column [ spacing 20 ]
+            [ title "Example 1"
+            , row [ centerX ] [ inputText model ]
+            , row [ centerX ] [ appButton ]
             , outputDisplay model
             ]
         ]
@@ -106,25 +103,26 @@ title str =
 
 outputDisplay : Model -> Element msg
 outputDisplay model =
-    row [ centerX ]
+    row [ Font.size 16, centerX, width (px widgetWidth) ]
         [ text model.output ]
 
 
 inputText : Model -> Element Msg
 inputText model =
-    Input.text []
-        { onChange = InputText
-        , text = model.input
-        , placeholder = Nothing
-        , label = Input.labelLeft [] <| el [] (text "")
-        }
+    TextField.make InputText model.input ""
+        |> TextField.withHeight 30
+        |> TextField.withWidth widgetWidth
+        |> TextField.withLabelWidth 0
+        |> TextField.withLabelPosition NoLabel
+        |> TextField.toElement
 
 
 appButton : Element Msg
 appButton =
-    button ReverseText "Reverse"
-        |> Button.withWidth (Bounded 100)
+    Button.make ReverseText "Reverse"
+        |> Button.withWidth (Bounded widgetWidth)
         |> Button.withSelected False
+        |> Button.withStyle Rounded
         |> Button.toElement
 
 
@@ -137,13 +135,6 @@ appButton =
 mainColumnStyle =
     [ centerX
     , centerY
-    , Background.color (rgb255 240 240 240)
-    , paddingXY 20 20
-    ]
-
-
-buttonStyle =
-    [ Background.color (rgb255 40 40 40)
-    , Font.color (rgb255 255 255 255)
-    , paddingXY 15 8
+    , Background.color (rgb 0.9 0.9 0.9)
+    , padding 40
     ]

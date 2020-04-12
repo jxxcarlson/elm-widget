@@ -1,7 +1,7 @@
 module Widget.TextField exposing
-    ( Role(..), Size(..)
+    ( Role(..), Size(..), LabelPosition(..)
     , make, toElement
-    , withHeight, withLabelWidth, withWidth
+    , withHeight, withLabelWidth, withWidth, withLabelPosition
     )
 
 {-|
@@ -9,7 +9,7 @@ module Widget.TextField exposing
 
 ## Types
 
-@docs Role, Size
+@docs Role, Size, LabelPosition
 
 
 ## Construct, render
@@ -19,15 +19,14 @@ module Widget.TextField exposing
 
 ## Options
 
-@docs withHeight, withLabelWidth, withWidth
+@docs withHeight, withLabelWidth, withWidth, withLabelPosition
 
 -}
 
 import Element exposing (..)
-import Element.Background as Background
 import Element.Font as Font
 import Element.Input as Input
-import Widget.Style as Style exposing (..)
+import Widget.Color as Style exposing (..)
 
 
 type TextField msg
@@ -41,7 +40,16 @@ type alias Options =
     , width : Int
     , height : Int
     , labelWidth : Size
+    , labelPosition : LabelPosition
     }
+
+
+{-| -}
+type LabelPosition
+    = LabelLeft
+    | LabelAbove
+    | LabelRight
+    | NoLabel
 
 
 {-| -}
@@ -64,7 +72,7 @@ make msg text label =
 
 {-| -}
 toElement : TextField msg -> Element msg
-toElement (TextField options msg text label) =
+toElement (TextField options msg text labelText) =
     let
         baseLabelOptions =
             [ moveDown 8 ]
@@ -81,8 +89,23 @@ toElement (TextField options msg text label) =
         { onChange = msg
         , text = text
         , placeholder = Nothing
-        , label = Input.labelLeft labelOptions (Element.text label)
+        , label = label_ options.labelPosition labelOptions labelText -- Input.labelLeft labelOptions (Element.text label)
         }
+
+
+label_ labelPosition labelOptions labelText =
+    case labelPosition of
+        LabelLeft ->
+            Input.labelLeft labelOptions (Element.text labelText)
+
+        LabelAbove ->
+            Input.labelAbove labelOptions (Element.text labelText)
+
+        LabelRight ->
+            Input.labelRight labelOptions (Element.text labelText)
+
+        NoLabel ->
+            Input.labelLeft [] (Element.text "")
 
 
 defaultOptions =
@@ -92,7 +115,14 @@ defaultOptions =
     , width = 100
     , height = 40
     , labelWidth = Unbounded
+    , labelPosition = LabelLeft
     }
+
+
+{-| -}
+withLabelPosition : LabelPosition -> TextField msg -> TextField msg
+withLabelPosition labelPosition (TextField options msg text label) =
+    TextField { options | labelPosition = labelPosition } msg text label
 
 
 {-| -}
