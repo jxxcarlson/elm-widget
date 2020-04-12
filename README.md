@@ -27,7 +27,21 @@ myBar maxValue value =
         |> Widget.Bar.toElement
 ```
 
-## Text areas
+## Text field
+
+```elm
+dashboardInput msg text label =
+    TextField.make msg text label
+        |> TextField.withHeight 30
+        |> TextField.withWidth 50
+        |> TextField.withLabelWidth 70
+        |> TextField.toElement
+
+rateInput model = 
+    dashboardInput AcceptTickRate model.tickRateString "Rate"
+```
+
+## Text area
 
 ```elm
 textInput model =

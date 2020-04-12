@@ -1,13 +1,27 @@
 module Widget.TextField exposing
-    ( Options
-    , TextField(..)
-    , defaultOptions
-    , make
-    , toElement
-    , withHeight
-    , withLabelWidth
-    , withWidth
+    ( Role(..), Size(..)
+    , make, toElement
+    , withHeight, withLabelWidth, withWidth
     )
+
+{-|
+
+
+## Types
+
+@docs Role, Size
+
+
+## Construct, render
+
+@docs make, toElement
+
+
+## Options
+
+@docs withHeight, withLabelWidth, withWidth
+
+-}
 
 import Element exposing (..)
 import Element.Background as Background
@@ -20,11 +34,35 @@ type TextField msg
     = TextField Options (String -> msg) String String
 
 
+type alias Options =
+    { role : Role
+    , backgroundColor : Color
+    , fontColor : Color
+    , width : Int
+    , height : Int
+    , labelWidth : Size
+    }
+
+
+{-| -}
+type Role
+    = Primary
+    | Secondary
+
+
+{-| -}
+type Size
+    = Bounded Int
+    | Unbounded
+
+
+{-| -}
 make : (String -> msg) -> String -> String -> TextField msg
 make msg text label =
     TextField defaultOptions msg text label
 
 
+{-| -}
 toElement : TextField msg -> Element msg
 toElement (TextField options msg text label) =
     let
@@ -47,26 +85,6 @@ toElement (TextField options msg text label) =
         }
 
 
-type alias Options =
-    { role : Role
-    , backgroundColor : Color
-    , fontColor : Color
-    , width : Int
-    , height : Int
-    , labelWidth : Size
-    }
-
-
-type Role
-    = Primary
-    | Secondary
-
-
-type Size
-    = Bounded Int
-    | Unbounded
-
-
 defaultOptions =
     { role = Primary
     , backgroundColor = Style.darkGray
@@ -77,16 +95,19 @@ defaultOptions =
     }
 
 
+{-| -}
 withWidth : Int -> TextField msg -> TextField msg
 withWidth width (TextField options msg text label) =
     TextField { options | width = width } msg text label
 
 
+{-| -}
 withHeight : Int -> TextField msg -> TextField msg
 withHeight height (TextField options msg text label) =
     TextField { options | height = height } msg text label
 
 
+{-| -}
 withLabelWidth : Int -> TextField msg -> TextField msg
 withLabelWidth labelWidth (TextField options msg text label) =
     TextField { options | labelWidth = Bounded labelWidth } msg text label
