@@ -1,7 +1,7 @@
 {
     "type": "package",
-    "name": "jxxcarlson/widget",
-    "summary": "A small personal collectiion of UI widgets",
+    "name": "jxxcarlson/elm-widget",
+    "summary": "A small personal collection of UI widgets",
     "license": "MIT",
     "version": "1.0.0",
     "exposed-modules": [
