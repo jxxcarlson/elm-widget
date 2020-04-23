@@ -124,7 +124,7 @@ mainColumnStyle =
 
 
 textInput model =
-    TextArea.input GotText model.data "Enter data separated by commas"
+    TextArea.make GotText model.data "Enter data separated by commas"
         |> TextArea.withWidth 300
         |> TextArea.withHeight windowHeight
         |> TextArea.toElement

@@ -5261,7 +5261,6 @@ var $mdgriffith$elm_ui$Element$Background$color = function (clr) {
 			'background-color',
 			clr));
 };
-var $author$project$Widget$Style$focus = {backgroundColor: $elm$core$Maybe$Nothing, borderColor: $elm$core$Maybe$Nothing, shadow: $elm$core$Maybe$Nothing};
 var $mdgriffith$elm_ui$Internal$Model$FocusStyleOption = function (a) {
 	return {$: 'FocusStyleOption', a: a};
 };
@@ -11269,14 +11268,14 @@ var $author$project$Widget$TextArea$TextArea = F4(
 		return {$: 'TextArea', a: a, b: b, c: c, d: d};
 	});
 var $author$project$Widget$TextArea$Primary = {$: 'Primary'};
-var $author$project$Widget$Style$gray = function (g) {
+var $author$project$Widget$Color$gray = function (g) {
 	return A3($mdgriffith$elm_ui$Element$rgb, g, g, g);
 };
-var $author$project$Widget$Style$darkGray = $author$project$Widget$Style$gray(0.4);
-var $author$project$Widget$Style$darkRed = A3($mdgriffith$elm_ui$Element$rgb, 0.45, 0, 0);
-var $author$project$Widget$Style$white = $author$project$Widget$Style$gray(0.9);
-var $author$project$Widget$TextArea$defaultOptions = {backgroundColor: $author$project$Widget$Style$darkGray, fontColor: $author$project$Widget$Style$white, height: 40, role: $author$project$Widget$TextArea$Primary, selected: false, selectedBackgroundColor: $author$project$Widget$Style$darkRed, selectedFontColor: $author$project$Widget$Style$white, width: 100};
-var $author$project$Widget$TextArea$input = F3(
+var $author$project$Widget$Color$darkGray = $author$project$Widget$Color$gray(0.4);
+var $author$project$Widget$Color$darkRed = A3($mdgriffith$elm_ui$Element$rgb, 0.45, 0, 0);
+var $author$project$Widget$Color$white = $author$project$Widget$Color$gray(0.9);
+var $author$project$Widget$TextArea$defaultOptions = {backgroundColor: $author$project$Widget$Color$darkGray, fontColor: $author$project$Widget$Color$white, height: 40, role: $author$project$Widget$TextArea$Primary, selected: false, selectedBackgroundColor: $author$project$Widget$Color$darkRed, selectedFontColor: $author$project$Widget$Color$white, width: 100};
+var $author$project$Widget$TextArea$make = F3(
 	function (msg, text, label) {
 		return A4($author$project$Widget$TextArea$TextArea, $author$project$Widget$TextArea$defaultOptions, msg, text, label);
 	});
@@ -12278,7 +12277,7 @@ var $author$project$Example2$textInput = function (model) {
 			A2(
 				$author$project$Widget$TextArea$withWidth,
 				300,
-				A3($author$project$Widget$TextArea$input, $author$project$Example2$GotText, model.data, 'Enter data separated by commas'))));
+				A3($author$project$Widget$TextArea$make, $author$project$Example2$GotText, model.data, 'Enter data separated by commas'))));
 };
 var $author$project$Example2$title = function (str) {
 	return A2(
@@ -12548,7 +12547,7 @@ var $author$project$Example2$mainColumn = function (model) {
 										$mdgriffith$elm_ui$Element$el,
 										_List_fromArray(
 											[
-												$mdgriffith$elm_ui$Element$Font$size(12),
+												$mdgriffith$elm_ui$Element$Font$size(14),
 												$mdgriffith$elm_ui$Element$paddingEach(
 												_Utils_update(
 													$author$project$Example2$paddingData,
@@ -12561,13 +12560,14 @@ var $author$project$Example2$mainColumn = function (model) {
 					]))
 			]));
 };
+var $author$project$Widget$Style$noFocus = {backgroundColor: $elm$core$Maybe$Nothing, borderColor: $elm$core$Maybe$Nothing, shadow: $elm$core$Maybe$Nothing};
 var $author$project$Example2$view = function (model) {
 	return A3(
 		$mdgriffith$elm_ui$Element$layoutWith,
 		{
 			options: _List_fromArray(
 				[
-					$mdgriffith$elm_ui$Element$focusStyle($author$project$Widget$Style$focus)
+					$mdgriffith$elm_ui$Element$focusStyle($author$project$Widget$Style$noFocus)
 				])
 		},
 		_List_fromArray(

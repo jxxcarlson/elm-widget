@@ -1,6 +1,6 @@
 module Widget.TextArea exposing
     ( Options, Role(..), Size(..), TextArea(..)
-    , input, toElement, withHeight, withWidth
+    , make, toElement, withHeight, withWidth
     )
 
 {-|
@@ -13,7 +13,7 @@ module Widget.TextArea exposing
 
 ## Construct, render, set options
 
-@docs input, toElement, withHeight, withWidth
+@docs make, toElement, withHeight, withWidth
 
 -}
 
@@ -30,8 +30,8 @@ type TextArea msg
 
 
 {-| -}
-input : (String -> msg) -> String -> String -> TextArea msg
-input msg text label =
+make : (String -> msg) -> String -> String -> TextArea msg
+make msg text label =
     TextArea defaultOptions msg text label
 
 

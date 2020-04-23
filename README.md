@@ -10,7 +10,7 @@ also the `examples` folder.
 
 ```elm
 appButton =
-    button ReverseText "Reverse"
+    Widget.Button.make ReverseText "Reverse"
         |> Button.withWidth (Bounded 100)
         |> Button.withSelected False
         |> Button.toElement
@@ -33,7 +33,7 @@ myBar maxValue value =
 
 ```elm
 dashboardInput msg text label =
-    TextField.make msg text label
+    Widget.TextField.make msg text label
         |> TextField.withHeight 30
         |> TextField.withWidth 50
         |> TextField.withLabelWidth 70
@@ -47,7 +47,7 @@ rateInput model =
 
 ```elm
 textInput model =
-    TextArea.input GotText model.data "Enter text"
+    Widget.TextArea.make GotText model.data "Enter text"
         |> TextArea.withWidth 400
         |> TextArea.withHeight 533
         |> TextArea.toElement
