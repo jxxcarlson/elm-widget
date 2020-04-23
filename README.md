@@ -1,6 +1,7 @@
 # Widget
 
-This package is a collection of configurable UI widgets: buttons, 
+This package is a collection of configurable UI widgets 
+foru use with mdgriffith/elm-ui: buttons, 
 text fields, bars, etc.  Based on 
 [Brian Hick's Robot Buttons from Mars](https://www.youtube.com/watch?v=PDyWP-0H4Zo).
 Below are examples of how to use each element.  See 
