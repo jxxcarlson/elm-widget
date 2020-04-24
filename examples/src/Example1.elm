@@ -114,8 +114,8 @@ inputText model =
         |> TextField.withWidth widgetWidth
         |> TextField.withLabelWidth 60
         |> TextField.withLabelPosition LabelAbove
-        |> TextField.withBackgroundColor (Element.rgb255 255 200 200)
-        |> TextField.withFontColor (Element.rgb255 0 0 200)
+        -- |> TextField.withBackgroundColor (Element.rgb255 255 200 200)
+        --|> TextField.withFontColor (Element.rgb255 0 0 200)
         -- |> TextField.withRole Password
         |> TextField.toElement
 

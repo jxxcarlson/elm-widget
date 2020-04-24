@@ -1,5 +1,7 @@
 module Widget.Color exposing
-    ( darkGray
+    ( black
+    , charcoal
+    , darkGray
     , darkRed
     , lightRed
     , mediumGray
@@ -37,3 +39,13 @@ mediumGray =
 darkGray : Color
 darkGray =
     gray 0.4
+
+
+charcoal : Color
+charcoal =
+    gray 0.2
+
+
+black : Color
+black =
+    gray 0

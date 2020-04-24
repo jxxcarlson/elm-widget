@@ -27,7 +27,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
 import Element.Input as Input
-import Widget.Color as Style exposing (..)
+import Widget.Color as Color exposing (..)
 
 
 type TextField msg
@@ -137,8 +137,8 @@ label_ labelPosition labelOptions labelText =
 
 defaultOptions =
     { role = Primary
-    , backgroundColor = Style.darkGray
-    , fontColor = Style.white
+    , backgroundColor = Color.white
+    , fontColor = Color.black
     , width = 100
     , height = 40
     , labelWidth = Unbounded
