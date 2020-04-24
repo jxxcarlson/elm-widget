@@ -11,9 +11,9 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
 import Html exposing (Html)
-import Widget.Button as Button exposing (ButtonStyle(..), Role(..), Size(..))
+import Widget.Button as Button exposing (ButtonStyle(..), Size(..))
 import Widget.Style
-import Widget.TextField as TextField exposing (LabelPosition(..))
+import Widget.TextField as TextField exposing (LabelPosition(..), Role(..))
 
 
 main =
@@ -109,11 +109,14 @@ outputDisplay model =
 
 inputText : Model -> Element Msg
 inputText model =
-    TextField.make InputText model.input ""
+    TextField.make InputText model.input "Hi there!"
         |> TextField.withHeight 30
         |> TextField.withWidth widgetWidth
-        |> TextField.withLabelWidth 0
-        |> TextField.withLabelPosition NoLabel
+        |> TextField.withLabelWidth 60
+        |> TextField.withLabelPosition LabelAbove
+        |> TextField.withBackgroundColor (Element.rgb255 255 200 200)
+        |> TextField.withFontColor (Element.rgb255 0 0 200)
+        -- |> TextField.withRole Password
         |> TextField.toElement
 
 

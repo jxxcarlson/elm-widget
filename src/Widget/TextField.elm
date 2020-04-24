@@ -1,7 +1,7 @@
 module Widget.TextField exposing
     ( Role(..), Size(..), LabelPosition(..)
     , make, toElement
-    , withHeight, withLabelWidth, withWidth, withLabelPosition
+    , withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole
     )
 
 {-|
@@ -19,11 +19,12 @@ module Widget.TextField exposing
 
 ## Options
 
-@docs withHeight, withLabelWidth, withWidth, withLabelPosition
+@docs withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole
 
 -}
 
 import Element exposing (..)
+import Element.Background as Background
 import Element.Font as Font
 import Element.Input as Input
 import Widget.Color as Style exposing (..)
@@ -56,6 +57,7 @@ type LabelPosition
 type Role
     = Primary
     | Secondary
+    | Password
 
 
 {-| -}
@@ -85,12 +87,37 @@ toElement (TextField options msg text labelText) =
                 Bounded k ->
                     width (px k) :: baseLabelOptions
     in
-    Input.text [ moveUp 3, width (px options.width), height (px options.height), Font.size 14 ]
-        { onChange = msg
-        , text = text
-        , placeholder = Nothing
-        , label = label_ options.labelPosition labelOptions labelText -- Input.labelLeft labelOptions (Element.text label)
-        }
+    case options.role of
+        Password ->
+            Input.currentPassword
+                [ moveUp 3
+                , Background.color options.backgroundColor
+                , Font.color options.fontColor
+                , width (px options.width)
+                , height (px options.height)
+                , Font.size 14
+                ]
+                { onChange = msg
+                , text = text
+                , placeholder = Nothing
+                , label = label_ options.labelPosition labelOptions labelText
+                , show = False
+                }
+
+        _ ->
+            Input.text
+                [ Background.color options.backgroundColor
+                , Font.color options.fontColor
+                , moveUp 3
+                , width (px options.width)
+                , height (px options.height)
+                , Font.size 14
+                ]
+                { onChange = msg
+                , text = text
+                , placeholder = Nothing
+                , label = label_ options.labelPosition labelOptions labelText
+                }
 
 
 label_ labelPosition labelOptions labelText =
@@ -99,7 +126,7 @@ label_ labelPosition labelOptions labelText =
             Input.labelLeft labelOptions (Element.text labelText)
 
         LabelAbove ->
-            Input.labelAbove labelOptions (Element.text labelText)
+            Input.labelAbove labelOptions (Element.el [ moveUp 8 ] (Element.text labelText))
 
         LabelRight ->
             Input.labelRight labelOptions (Element.text labelText)
@@ -117,6 +144,24 @@ defaultOptions =
     , labelWidth = Unbounded
     , labelPosition = LabelLeft
     }
+
+
+{-| -}
+withFontColor : Color -> TextField msg -> TextField msg
+withFontColor color (TextField options msg text label) =
+    TextField { options | fontColor = color } msg text label
+
+
+{-| -}
+withBackgroundColor : Color -> TextField msg -> TextField msg
+withBackgroundColor color (TextField options msg text label) =
+    TextField { options | backgroundColor = color } msg text label
+
+
+{-| -}
+withRole : Role -> TextField msg -> TextField msg
+withRole role (TextField options msg text label) =
+    TextField { options | role = role } msg text label
 
 
 {-| -}
