@@ -1,7 +1,7 @@
 module Widget.Button exposing
     ( Alignment(..), Role(..), Size(..), ButtonStyle(..)
     , make, toElement
-    , withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withWidth
+    , withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withTitle, withWidth
     )
 
 {-|
@@ -19,7 +19,7 @@ module Widget.Button exposing
 
 ## Options
 
-@docs withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withWidth
+@docs withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withTitle, withWidth
 
 -}
 
@@ -28,6 +28,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
+import Html.Attributes
 import Widget.Color as Style exposing (..)
 
 
@@ -53,6 +54,7 @@ type alias Options =
     , width : Size
     , height : Size
     , alignment : Alignment
+    , title : String
     }
 
 
@@ -92,6 +94,7 @@ defaultOptions =
     , width = Unbounded
     , height = Bounded 30
     , alignment = Center
+    , title = ""
     }
 
 
@@ -115,6 +118,12 @@ withRole role (Button options msg label) =
 withStyle : ButtonStyle -> Button msg -> Button msg
 withStyle variant (Button options msg label) =
     Button { options | variant = variant } msg label
+
+
+{-| -}
+withTitle : String -> Button msg -> Button msg
+withTitle title (Button options msg label) =
+    Button { options | title = title } msg label
 
 
 {-| -}
@@ -172,7 +181,10 @@ type alias InnerButton msg =
 button_ : InnerButton msg
 button_ buttonStyleFunction options msg_ label =
     row (buttonStyleFunction options)
-        [ Input.button [ paddingXY 8 4, buttonAlignment options.alignment ]
+        [ Input.button
+            [ paddingXY 8 4
+            , buttonAlignment options.alignment
+            ]
             { onPress = Just msg_
             , label = el [ centerX, centerY ] (text label)
             }
@@ -261,7 +273,10 @@ primaryButtonStyle options =
     , Background.color (buttonBackgroundColor options)
     , Font.color (buttonFontColor options)
     , Font.size 14
-    , mouseDown [ Background.color (rgb255 40 40 200) ]
+    , Element.htmlAttribute (Html.Attributes.attribute "title" options.title)
+    , mouseDown
+        [ Background.color (rgb255 40 40 200)
+        ]
     ]
         ++ variantStyle options.variant options.fontColor
         |> prependWidth options.width
@@ -274,6 +289,7 @@ outlineButtonStyle options =
     , Background.color (buttonBackgroundColor options)
     , Font.color (buttonFontColor options)
     , Font.size 14
+    , Element.htmlAttribute (Html.Attributes.attribute "title" options.title)
     , Border.solid
     , Border.color (Element.rgb255 255 0 0)
     , Border.width 2

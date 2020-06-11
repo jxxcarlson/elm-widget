@@ -1,8 +1,8 @@
 # Widget
 
 This package is a collection of configurable UI widgets 
-foru use with mdgriffith/elm-ui: buttons, 
-text fields, bars, etc.  Based on 
+for use with mdgriffith/elm-ui: buttons, 
+text fields, bars, etc.  The API is based on 
 [Brian Hick's Robot Buttons from Mars](https://www.youtube.com/watch?v=PDyWP-0H4Zo).
 Below are examples of how to use each element.  See 
 also the `examples` folder.
@@ -14,9 +14,11 @@ appButton =
     Widget.Button.make ReverseText "Reverse"
         |> Button.withWidth (Bounded 100)
         |> Button.withSelected False
+        |> Button.withTitle "Press to reverse text"
         |> Button.toElement
 ```
 
+The point is that you can use as many or as few "withXXX" functions as you please.
 
 ## Bar 
 

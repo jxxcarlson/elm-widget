@@ -11,6 +11,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
 import Html exposing (Html)
+import Html.Attributes
 import Widget.Button as Button exposing (ButtonStyle(..), Size(..))
 import Widget.Style
 import Widget.TextField as TextField exposing (LabelPosition(..), Role(..))
@@ -126,6 +127,7 @@ appButton =
         |> Button.withWidth (Bounded widgetWidth)
         |> Button.withSelected False
         |> Button.withStyle Rounded
+        |> Button.withTitle "Press this button to reverse the text."
         |> Button.toElement
 
 
