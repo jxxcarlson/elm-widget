@@ -2,6 +2,7 @@ module Widget.Button exposing
     ( Alignment(..), Role(..), Size(..), ButtonStyle(..)
     , make, toElement
     , withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withTitle, withWidth
+    , withIcon
     )
 
 {-|
@@ -29,11 +30,12 @@ import Element.Border as Border
 import Element.Font as Font
 import Element.Input as Input
 import Html.Attributes
+import Svg exposing (Svg)
 import Widget.Color as Style exposing (..)
 
 
 type Button msg
-    = Button Options msg String
+    = Button (Options msg) msg String
 
 
 {-| -}
@@ -42,7 +44,7 @@ make msg label =
     Button defaultOptions msg label
 
 
-type alias Options =
+type alias Options msg =
     { role : Role
     , variant : ButtonStyle
     , selected : Bool
@@ -55,6 +57,7 @@ type alias Options =
     , height : Size
     , alignment : Alignment
     , title : String
+    , icon : Maybe (Svg msg)
     }
 
 
@@ -95,6 +98,7 @@ defaultOptions =
     , height = Bounded 30
     , alignment = Center
     , title = ""
+    , icon = Nothing
     }
 
 
@@ -102,10 +106,10 @@ defaultOptions =
 toElement : Button msg -> Element msg
 toElement (Button options msg label) =
     if options.selected then
-        button_ (buttobuttonStyleDispatcher options.role) options msg label
+        button_ (buttonStyleDispatcher options.role) options msg label
 
     else
-        button_ (buttobuttonStyleDispatcher options.role) options msg label
+        button_ (buttonStyleDispatcher options.role) options msg label
 
 
 {-| -}
@@ -174,25 +178,39 @@ withSelectedFontColor color (Button options msg label) =
     Button { options | selectedFontColor = color } msg label
 
 
+{-| -}
+withIcon : Svg msg -> Button msg -> Button msg
+withIcon svg (Button options msg label) =
+    Button { options | icon = Just svg } msg label
+
+
 type alias InnerButton msg =
-    ButtonStyleFunction msg -> Options -> msg -> String -> Element msg
+    ButtonStyleFunction msg -> Options msg -> msg -> String -> Element msg
 
 
 button_ : InnerButton msg
 button_ buttonStyleFunction options msg_ label =
+    let
+        labelElement =
+            case options.icon of
+                Just svg ->
+                    row [] [ el [ paddingEach { top = 0, bottom = 0, left = 0, right = 10 } ] (html svg), text label ]
+
+                Nothing ->
+                    el [ centerX, centerY ] (text label)
+    in
     row (buttonStyleFunction options)
         [ Input.button
-            [ paddingXY 8 4
-            , buttonAlignment options.alignment
+            [ buttonAlignment options.alignment
             ]
             { onPress = Just msg_
-            , label = el [ centerX, centerY ] (text label)
+            , label = labelElement
             }
         ]
 
 
-buttobuttonStyleDispatcher : Role -> ButtonStyleFunction msg
-buttobuttonStyleDispatcher role =
+buttonStyleDispatcher : Role -> ButtonStyleFunction msg
+buttonStyleDispatcher role =
     case role of
         Primary ->
             primaryButtonStyle
@@ -222,7 +240,7 @@ prependHeight size list =
 
 
 type alias ButtonStyleFunction msg =
-    Options -> List (Attribute msg)
+    Options msg -> List (Attribute msg)
 
 
 variantStyle : ButtonStyle -> Color -> List (Attribute msg)
@@ -247,24 +265,22 @@ buttonAlignment alignment =
             centerX
 
 
-buttonBackgroundColor : Options -> Color
+buttonBackgroundColor : Options msg -> Color
 buttonBackgroundColor options =
-    case options.selected of
-        True ->
-            options.selectedBackgroundColor
+    if options.selected then
+        options.selectedBackgroundColor
 
-        False ->
-            options.backgroundColor
+    else
+        options.backgroundColor
 
 
-buttonFontColor : Options -> Color
+buttonFontColor : Options msg -> Color
 buttonFontColor options =
-    case options.selected of
-        True ->
-            options.selectedFontColor
+    if options.selected then
+        options.selectedFontColor
 
-        False ->
-            options.fontColor
+    else
+        options.fontColor
 
 
 primaryButtonStyle : ButtonStyleFunction msg
