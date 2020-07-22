@@ -1,8 +1,7 @@
 module Widget.Button exposing
     ( Alignment(..), Role(..), Size(..), ButtonStyle(..)
     , make, toElement
-    , withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withTitle, withWidth
-    , withIcon
+    , withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withTitle, withWidth, withIcon
     )
 
 {-|
@@ -20,7 +19,7 @@ module Widget.Button exposing
 
 ## Options
 
-@docs withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withTitle, withWidth
+@docs withAlignment, withBackgroundColor, withFontColor, withHeight, withRole, withSelected, withSelectedBackgroundColor, withSelectedFontColor, withStyle, withTitle, withWidth, withIcon
 
 -}
 
