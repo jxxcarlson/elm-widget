@@ -2,6 +2,7 @@ module Widget.TextField exposing
     ( Role(..), Size(..), LabelPosition(..)
     , make, toElement
     , withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole
+    , withTitle
     )
 
 {-|
@@ -27,6 +28,7 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
 import Element.Input as Input
+import Html.Attributes
 import Widget.Color as Color exposing (..)
 
 
@@ -42,6 +44,7 @@ type alias Options =
     , height : Int
     , labelWidth : Size
     , labelPosition : LabelPosition
+    , title : String
     }
 
 
@@ -86,6 +89,9 @@ toElement (TextField options msg text labelText) =
 
                 Bounded k ->
                     width (px k) :: baseLabelOptions
+
+        title =
+            options.title
     in
     case options.role of
         Password ->
@@ -100,7 +106,7 @@ toElement (TextField options msg text labelText) =
                 { onChange = msg
                 , text = text
                 , placeholder = Nothing
-                , label = label_ options.labelPosition labelOptions labelText
+                , label = label_ options.labelPosition labelOptions labelText title
                 , show = False
                 }
 
@@ -116,17 +122,24 @@ toElement (TextField options msg text labelText) =
                 { onChange = msg
                 , text = text
                 , placeholder = Nothing
-                , label = label_ options.labelPosition labelOptions labelText
+                , label = label_ options.labelPosition labelOptions labelText title
                 }
 
 
-label_ labelPosition labelOptions labelText =
+label_ labelPosition labelOptions labelText title =
+    let
+        titleAttr =
+            Element.htmlAttribute (Html.Attributes.attribute "title" title)
+
+        cursorAttr =
+            Element.htmlAttribute (Html.Attributes.attribute "cursor" "default")
+    in
     case labelPosition of
         LabelLeft ->
             Input.labelLeft labelOptions (Element.text labelText)
 
         LabelAbove ->
-            Input.labelAbove labelOptions (Element.el [ moveUp 8 ] (Element.text labelText))
+            Input.labelAbove labelOptions (Element.el [ moveUp 8, titleAttr, cursorAttr ] (Element.text labelText))
 
         LabelRight ->
             Input.labelRight labelOptions (Element.text labelText)
@@ -143,6 +156,7 @@ defaultOptions =
     , height = 40
     , labelWidth = Unbounded
     , labelPosition = LabelLeft
+    , title = ""
     }
 
 
@@ -186,3 +200,8 @@ withHeight height (TextField options msg text label) =
 withLabelWidth : Int -> TextField msg -> TextField msg
 withLabelWidth labelWidth (TextField options msg text label) =
     TextField { options | labelWidth = Bounded labelWidth } msg text label
+
+
+withTitle : String -> TextField msg -> TextField msg
+withTitle title (TextField options msg text label) =
+    TextField { options | title = title } msg text label

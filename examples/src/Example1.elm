@@ -12,10 +12,11 @@ import Element.Background as Background
 import Element.Font as Font
 import Html exposing (Html)
 import Html.Attributes
+import Icons
 import Widget.Button as Button exposing (ButtonStyle(..), Size(..))
 import Widget.Style
 import Widget.TextField as TextField exposing (LabelPosition(..), Role(..))
-import Icons
+
 
 main =
     Browser.element
@@ -115,6 +116,7 @@ inputText model =
         |> TextField.withWidth widgetWidth
         |> TextField.withLabelWidth 60
         |> TextField.withLabelPosition LabelAbove
+        |> TextField.withTitle "THIS IS A TEST"
         -- |> TextField.withBackgroundColor (Element.rgb255 255 200 200)
         --|> TextField.withFontColor (Element.rgb255 0 0 200)
         -- |> TextField.withRole Password
@@ -129,6 +131,7 @@ appButton =
         |> Button.withStyle Rounded
         |> Button.withTitle "Press this button to reverse the text."
         |> Button.withIcon Icons.repeat
+        |> Button.withTitle "TOUCH ME"
         |> Button.toElement
 
 
