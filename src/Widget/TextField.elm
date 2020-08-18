@@ -1,8 +1,7 @@
 module Widget.TextField exposing
     ( Role(..), Size(..), LabelPosition(..)
     , make, toElement
-    , withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole
-    , withTitle
+    , withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole, withTitle
     )
 
 {-|
@@ -20,7 +19,7 @@ module Widget.TextField exposing
 
 ## Options
 
-@docs withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole
+@docs withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole, withTitle
 
 -}
 
@@ -202,6 +201,7 @@ withLabelWidth labelWidth (TextField options msg text label) =
     TextField { options | labelWidth = Bounded labelWidth } msg text label
 
 
+{-| -}
 withTitle : String -> TextField msg -> TextField msg
 withTitle title (TextField options msg text label) =
     TextField { options | title = title } msg text label
