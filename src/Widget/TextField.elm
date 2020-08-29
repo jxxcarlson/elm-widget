@@ -117,6 +117,7 @@ toElement (TextField options msg text labelText) =
                 , width (px options.width)
                 , height (px options.height)
                 , Font.size 14
+                , elementAttribute "autocapitalize" "off"
                 ]
                 { onChange = msg
                 , text = text
@@ -205,3 +206,12 @@ withLabelWidth labelWidth (TextField options msg text label) =
 withTitle : String -> TextField msg -> TextField msg
 withTitle title (TextField options msg text label) =
     TextField { options | title = title } msg text label
+
+
+
+-- HELPERS
+
+
+elementAttribute : String -> String -> Attribute msg
+elementAttribute key value =
+    Element.htmlAttribute (Html.Attributes.attribute key value)
