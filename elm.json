@@ -3,7 +3,7 @@
     "name": "jxxcarlson/elm-widget",
     "summary": "A small personal collection of UI widgets for mdgriffith/elm-ui",
     "license": "MIT",
-    "version": "3.2.0",
+    "version": "3.2.1",
     "exposed-modules": [
         "Widget.Button",
         "Widget.Bar",
