@@ -169,7 +169,7 @@ withFontColor : Color -> TextField msg -> TextField msg
 withFontColor color (TextField options msg text label) =
     TextField { options | fontColor = color } msg text label
 
-
+{-| -}
 withId : String -> TextField msg -> TextField msg
 withId id (TextField options msg text label) =
     TextField { options | id = id } msg text label
