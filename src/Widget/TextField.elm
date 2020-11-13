@@ -1,7 +1,7 @@
 module Widget.TextField exposing
     ( Role(..), Size(..), LabelPosition(..)
     , make, toElement
-    , withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole, withTitle
+    , withHeight, withId, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole, withTitle
     )
 
 {-|
@@ -19,7 +19,7 @@ module Widget.TextField exposing
 
 ## Options
 
-@docs withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole, withTitle
+@docs withId, withHeight, withLabelWidth, withWidth, withLabelPosition, withFontColor, withBackgroundColor, withRole, withTitle
 
 -}
 
@@ -39,6 +39,7 @@ type alias Options =
     { role : Role
     , backgroundColor : Color
     , fontColor : Color
+    , id : String
     , width : Int
     , height : Int
     , labelWidth : Size
@@ -99,6 +100,7 @@ toElement (TextField options msg text labelText) =
                 , Background.color options.backgroundColor
                 , Font.color options.fontColor
                 , width (px options.width)
+                , elementAttribute "id" options.id
                 , height (px options.height)
                 , Font.size 14
                 ]
@@ -115,6 +117,7 @@ toElement (TextField options msg text labelText) =
                 , Font.color options.fontColor
                 , moveUp 3
                 , width (px options.width)
+                , elementAttribute "id" options.id
                 , height (px options.height)
                 , Font.size 14
                 , elementAttribute "autocapitalize" "off"
@@ -152,6 +155,7 @@ defaultOptions =
     { role = Primary
     , backgroundColor = Color.white
     , fontColor = Color.black
+    , id = ""
     , width = 100
     , height = 40
     , labelWidth = Unbounded
@@ -165,6 +169,10 @@ withFontColor : Color -> TextField msg -> TextField msg
 withFontColor color (TextField options msg text label) =
     TextField { options | fontColor = color } msg text label
 
+
+withId : String -> TextField msg -> TextField msg
+withId id (TextField options msg text label) =
+    TextField { options | id = id } msg text label
 
 {-| -}
 withBackgroundColor : Color -> TextField msg -> TextField msg
@@ -215,3 +223,4 @@ withTitle title (TextField options msg text label) =
 elementAttribute : String -> String -> Attribute msg
 elementAttribute key value =
     Element.htmlAttribute (Html.Attributes.attribute key value)
+

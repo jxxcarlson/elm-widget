@@ -1,0 +1,6 @@
+scripts:
+
+  make:
+   - elm make src/Widget/TextField.elm
+   - elm make src/Widget/TextArea.elm
+
